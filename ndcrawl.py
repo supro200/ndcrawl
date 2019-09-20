@@ -12,10 +12,10 @@ from ndlib import parse
 CONFIG_FILE = 'ndcrawl.ini'
 
 parser = argparse.ArgumentParser(description='Discover Network Topology via CDP/LLDP')
-parser.add_argument('-seed', metavar="switch1[,switch2]", help="Seed devices to start crawl")
-parser.add_argument('-nei_file', metavar="file", help="Output Neighbors to File", type=str)
-parser.add_argument('-dev_file', metavar="file", help="Output Neighbors to File", type=str)
-parser.add_argument('-ng_file', metavar="file", help="Output NetGrph Topology File", type=str)
+parser.add_argument('--seed', metavar="switch1[,switch2]", help="Seed devices to start crawl")
+parser.add_argument('--nei_file', metavar="file", help="Output Neighbors to File", type=str)
+parser.add_argument('--dev_file', metavar="file", help="Output Neighbors to File", type=str)
+parser.add_argument('--ng_file', metavar="file", help="Output NetGrph Topology File", type=str)
 parser.add_argument('--quiet', help='Quiet output, log to file only', action="store_true")
 parser.add_argument("--seed_os", metavar='cisco_nxos', help="Netmiko OS type for seed devices",
                     type=str)
@@ -26,6 +26,8 @@ parser.add_argument("--user", metavar='username', help="Username to execute as",
 parser.add_argument("--max_crawl", metavar='int', help="Max devices to crawl (default 10000)",
                     type=int)
 parser.add_argument("--conf", metavar='file', help="Alternate Config File",
+                    type=str)
+parser.add_argument("--site_name", metavar='site_name', help="Site Name for output file name",
                     type=str)
 parser.add_argument("--debug", help="Set debugging level", type=int)
 parser.add_argument("-v", help="Verbose Output", action="store_true")
@@ -113,7 +115,7 @@ if args.seed or args.seed_file:
     if not args.quiet:
         print('Beginning crawl on:', ', '.join(seeds))
 
-    topology.crawl(seeds, args.user, password, outf=args.nei_file, dout=args.dev_file, ngout=args.ng_file)
+    topology.crawl(seeds, args.user, password, args.site_name, outf=args.nei_file, dout=args.dev_file, ngout=args.ng_file)
 else:
     print('\nError: Must provide -seed devices if not using config file\n')
     parser.print_help()
