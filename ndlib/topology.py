@@ -1,6 +1,5 @@
 'Topology Routines'
 import logging
-import csv
 import threading
 from time import sleep
 from queue import Queue
