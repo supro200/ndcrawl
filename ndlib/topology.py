@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 config = dict()
 
-def crawl(seeds, username, password, site_name, outf=None, dout=None, ngout=None):
+def crawl(seeds, username, password, site_name, config, outf=None, dout=None, ngout=None):
     'Crawl CDP/LLDP Neighbors to build a topology'
 
     # Queue for devices to scrape next
@@ -179,7 +179,7 @@ def crawl(seeds, username, password, site_name, outf=None, dout=None, ngout=None
     logger.info('Total neighbors: %s', str(ncount))
 
 
-    output.output_files(outf, ngout, dout, neighbors, devices, distances, site_name)
+    output.output_files(outf, ngout, dout, neighbors, devices, distances, site_name, config)
 
 
 def gather_nd(**kwargs):

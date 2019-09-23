@@ -115,7 +115,8 @@ if args.seed or args.seed_file:
     if not args.quiet:
         print('Beginning crawl on:', ', '.join(seeds))
 
-    topology.crawl(seeds, args.user, password, args.site_name, outf=args.nei_file, dout=args.dev_file, ngout=args.ng_file)
+
+    topology.crawl(seeds, args.user, password, args.site_name, config, outf=args.nei_file, dout=args.dev_file, ngout=args.ng_file)
 else:
     print('\nError: Must provide -seed devices if not using config file\n')
     parser.print_help()

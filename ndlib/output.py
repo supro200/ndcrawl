@@ -4,20 +4,22 @@ import logging
 import os
 
 logger = logging.getLogger(__name__)
-CSV_DIR = "out-csv\\"
-TXT_DIR = "out-txt\\"
 
-def output_files(outf, ngout, dout, neighbors, devices, distances, site_name):
+
+def output_files(outf, ngout, dout, neighbors, devices, distances, site_name, config):
     """ Output files to CSV if requested """
 
-    os.makedirs(os.path.dirname(CSV_DIR), exist_ok=True)
-    os.makedirs(os.path.dirname(TXT_DIR), exist_ok=True)
+    csv_dir = config['main']['csv_dir']
+    txt_dir = config['main']['txt_dir']
+
+    os.makedirs(os.path.dirname(csv_dir), exist_ok=True)
+    os.makedirs(os.path.dirname(txt_dir), exist_ok=True)
 
     # Output Neighbor CSV File
     if outf:
         fieldnames = ['local_device_id', 'remote_device_id', 'distance', 'local_int', \
                       'remote_int', 'ipv4', 'os', 'platform', 'description']
-        f = open(CSV_DIR + site_name + "_" + outf, 'w', newline='')
+        f = open(csv_dir + site_name + "_" + outf, 'w', newline='')
         dw = csv.DictWriter(f, fieldnames=fieldnames)
         dw.writeheader()
         for n in neighbors:
@@ -30,7 +32,7 @@ def output_files(outf, ngout, dout, neighbors, devices, distances, site_name):
     # Output NetGrph CSV File
     if ngout:
         fieldnames = ['LocalName', 'LocalPort', 'RemoteName', 'RemotePort']
-        f = open(CSV_DIR + site_name + "_" + ngout, 'w', newline='')
+        f = open(csv_dir + site_name + "_" + ngout, 'w', newline='')
         dw = csv.DictWriter(f, fieldnames=fieldnames)
         dw.writeheader()
         for n in neighbors:
@@ -46,7 +48,7 @@ def output_files(outf, ngout, dout, neighbors, devices, distances, site_name):
     if dout:
         fieldnames = ['device_id', 'ipv4', 'platform', 'os', 'distance', 'logged_in']
         # added newline=''
-        f = open(CSV_DIR + site_name + "_" + dout, 'w', newline='')
+        f = open(csv_dir + site_name + "_" + dout, 'w', newline='')
         dw = csv.DictWriter(f, fieldnames=fieldnames)
         dw.writeheader()
 
@@ -68,6 +70,6 @@ def output_files(outf, ngout, dout, neighbors, devices, distances, site_name):
             dw.writerow(dd)
 
         if site_name:
-            with open(TXT_DIR + site_name + "_" "devices" + ".txt", "w") as f:
+            with open(txt_dir + site_name + "_" "devices" + ".txt", "w") as f:
                 f.write("# -------" + site_name.replace("_"," ") + "-------")
                 f.write(write_to_txt)

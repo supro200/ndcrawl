@@ -1,6 +1,31 @@
 # CDP/LLDP Network Discovery Crawler for Cisco networks
 
-This is experimental at the moment. Uses netmiko and some seed devices to scrape
+Forked from yantisj/ndcraw, modified to generate .txt files for NetSQL tool supro200/netsql.
+
+Main features of the original  **ndcraw** tool:
+-	Not only discovers with CDP, but also tries to SSH
+-	Reports all discovered devices, and the devices where SSH login was successful
+-	Multithreads – discovers the network really fast
+-	CLI options similar to NetSQL :)
+
+Outputs to a txt file which can be used in NetSQL (in fact the output directory of this tool can be the input directory for NetSQL)
+The output file name is the sitename in CLI stored in **out-txt** directory
+
+To use it, unzip the file in a directory, change dir, and run in CLI     pip install -r requirements.txt
+
+Usage:
+```
+python ndcrawl.py --user <username>  --seed  <device to start> --site_name <site_name>
+```
+Example:
+
+```
+python ndcrawl.py --user aupuser3 --seed 10.90.47.29 --site_name 300_queen_st
+
+python ndcrawl.py --user aupuser3 --seed 10.174.41.35 --site_name 201_collins_st
+```
+
+Uses netmiko and some seed devices to scrape
 your network and output CSV files of all neighbor topology data, as well as a
 device list file. Uses threaded connections at each iteration, moving out from
 seed devices to next level of devices until all devices are discovered.
